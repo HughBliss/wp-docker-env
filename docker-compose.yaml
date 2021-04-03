@@ -2,5 +2,25 @@ version: '3'
 
 services:
   app:
-    container_name: app
-    image: wordpress
+    image: wordpress:php8.0
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: user
+      WORDPRESS_DB_PASSWORD: Q!w2e3r4
+      WORDPRESS_DB_NAME: app
+    volumes:
+      - ../WP_app:/var/www/html
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Q!w2e3r4
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - ./db/data:/var/lib/mysql
